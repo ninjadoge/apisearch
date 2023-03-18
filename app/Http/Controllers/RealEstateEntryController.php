@@ -52,9 +52,17 @@ class RealEstateEntryController extends Controller
             $query->where('address', 'LIKE', "%{$request->address}%");
         }
 
-        if ($request->has('size')) {
-            $query->where('size', '>=', $request->size);
+        if ($request->has('min_size')) {
+            $query->where('size', '>=', $request->min_size);
         }
+
+        if ($request->has('max_size')) {
+            $query->where('size', '<=', $request->max_size);
+        }
+    
+        // if ($request->has('size')) {
+        //     $query->where('size', '>=', $request->size);
+        // }
     
         if ($request->has('bedrooms')) {
             $query->where('bedrooms', '=', $request->bedrooms);
