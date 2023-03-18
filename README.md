@@ -15,7 +15,9 @@ After cloning the repo you should run command
 
 **composer install**
 
-  
+It may me be possible that application key is needed - to generate one execute
+
+**php artisan key:generate**
 
 
 To create a table in database it is needed to run migrations
