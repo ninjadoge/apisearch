@@ -59,6 +59,9 @@ To search properties that are in radius of some point use following parameters
 
 ## Tests
 Feature tests are located in 
+
 **tests\Feature\RealEstatePropertyTest.php**
+
 and they can be executed by using 
+
 **php artisan test**
