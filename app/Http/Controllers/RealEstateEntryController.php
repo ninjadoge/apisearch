@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\RealEstateProperty;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class RealEstateEntryController extends Controller
 {
@@ -68,9 +67,18 @@ class RealEstateEntryController extends Controller
         if ($request->has('price_max')) {
             $query->where('price', '<=', $request->price_max);
         }
-          
+        
+        if ($request->has('latitude') && $request->has('longitude') && $request->has('radius')) {
+            $latitude = $request->latitude;
+            $longitude = $request->longitude;
+            $radius = $request->radius;
+            
+            $haversine = "(6371 * acos(cos(radians($latitude)) * cos(radians(latitude)) * cos(radians(longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(latitude))))";
+            $query->selectRaw("*, $haversine AS distance")->orderBy('distance')->whereRaw("$haversine < ?", [$radius]);
+        }
+        
         $realEstateEntries = $query->get();
-    
+
         return response()->json($realEstateEntries);
     }
     /**
