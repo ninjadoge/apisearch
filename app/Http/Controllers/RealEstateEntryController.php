@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\StoreRequest;
 use App\Http\Resources\RealEstatePropertyCollection;
 use App\Http\Resources\RealEstatePropertyResource;
@@ -15,7 +16,7 @@ class RealEstateEntryController extends Controller
      */
     public function index()
     {
-        //
+        return new RealEstatePropertyCollection(RealEstateProperty::paginate(25));
     }
 
     /**
@@ -89,24 +90,37 @@ class RealEstateEntryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(RealEstateProperty $realEstateEntry)
     {
-        //
+        return new RealEstatePropertyResource($realEstateEntry); 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SearchRequest $request, RealEstateProperty $realEstateEntry)
     {
-        //
+        $realEstateEntry->update($request->only(
+            [
+                'address',
+                'size',
+                'bedrooms',
+                'price',
+                'latitude',
+                'longitude',
+            ]
+        ));
+
+        return new RealEstatePropertyResource($realEstateEntry);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(RealEstateProperty $realEstateEntry)
     {
-        //
+        $realEstateEntry->delete();
+
+        return response()->json(null, 204);
     }
 }

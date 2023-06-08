@@ -20,5 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('real-estate-entries', [RealEstateEntryController::class, 'store'])->name('real-estate.store');
 Route::get('real-estate-entries/search', [RealEstateEntryController::class, 'search'])->name('real-estate.search');
+
+Route::apiResource('real-estate-entries', RealEstateEntryController::class);
