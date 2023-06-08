@@ -16,7 +16,7 @@ class RealEstateEntryController extends Controller
      */
     public function index()
     {
-        //
+        return new RealEstatePropertyCollection(RealEstateProperty::paginate(25));
     }
 
     /**
