@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\StoreRequest;
 use App\Http\Resources\RealEstatePropertyCollection;
 use App\Http\Resources\RealEstatePropertyResource;
@@ -97,9 +98,20 @@ class RealEstateEntryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SearchRequest $request, RealEstateProperty $realEstateEntry)
     {
-        //
+        $realEstateEntry->update($request->only(
+            [
+                'address',
+                'size',
+                'bedrooms',
+                'price',
+                'latitude',
+                'longitude',
+            ]
+        ));
+
+        return new RealEstatePropertyResource($realEstateEntry);
     }
 
     /**
