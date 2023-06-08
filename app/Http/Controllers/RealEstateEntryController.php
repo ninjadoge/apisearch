@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRequest;
 use App\Models\RealEstateProperty;
 use Illuminate\Http\Request;
 
@@ -18,20 +19,10 @@ class RealEstateEntryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'type' => 'required|in:house,apartment',
-            'address' => 'required',
-            'size' => 'required|integer',
-            'bedrooms' => 'required|integer',
-            'price' => 'required|integer',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
-        ]);
-
-       
-
+    public function store(StoreRequest $request)
+    {   
+        $validatedData = $request->all();
+        
         $realEstateEntry = new RealEstateProperty();
         $realEstateEntry->type = $validatedData['type'];
         $realEstateEntry->address = $validatedData['address'];
@@ -46,6 +37,7 @@ class RealEstateEntryController extends Controller
     }
 
     public function search(Request $request){
+        return $request;
         $query = RealEstateProperty::query();
 
         if ($request->has('address')) {
