@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRequest;
+use App\Http\Resources\RealEstatePropertyCollection;
+use App\Http\Resources\RealEstatePropertyResource;
 use App\Models\RealEstateProperty;
 use Illuminate\Http\Request;
 
@@ -33,11 +35,12 @@ class RealEstateEntryController extends Controller
         $realEstateEntry->longitude = $validatedData['longitude'];
         $realEstateEntry->save();
 
-        return response()->json($realEstateEntry, 201);
+        return new RealEstatePropertyResource($realEstateEntry);
+        // return response()->json($realEstateEntry, 201);  
     }
 
     public function search(Request $request){
-        return $request;
+
         $query = RealEstateProperty::query();
 
         if ($request->has('address')) {
@@ -79,7 +82,9 @@ class RealEstateEntryController extends Controller
         
         $realEstateEntries = $query->get();
 
-        return response()->json($realEstateEntries);
+        return new RealEstatePropertyCollection($realEstateEntries);
+
+        // return response()->json($realEstateEntries);
     }
     /**
      * Display the specified resource.
