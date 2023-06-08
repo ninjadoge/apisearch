@@ -89,9 +89,9 @@ class RealEstateEntryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(RealEstateProperty $realEstateEntry)
     {
-        //
+        return new RealEstatePropertyResource($realEstateEntry); 
     }
 
     /**
@@ -105,8 +105,10 @@ class RealEstateEntryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(RealEstateProperty $realEstateEntry)
     {
-        //
+        $realEstateEntry->delete();
+
+        return response()->json(null, 204);
     }
 }
