@@ -8,6 +8,7 @@ use App\Http\Resources\RealEstatePropertyCollection;
 use App\Http\Resources\RealEstatePropertyResource;
 use App\Models\RealEstateProperty;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class RealEstateEntryController extends Controller
 {
@@ -37,7 +38,6 @@ class RealEstateEntryController extends Controller
         $realEstateEntry->save();
 
         return new RealEstatePropertyResource($realEstateEntry);
-        // return response()->json($realEstateEntry, 201);  
     }
 
     public function search(Request $request){
@@ -84,8 +84,6 @@ class RealEstateEntryController extends Controller
         $realEstateEntries = $query->get();
 
         return new RealEstatePropertyCollection($realEstateEntries);
-
-        // return response()->json($realEstateEntries);
     }
     /**
      * Display the specified resource.
@@ -121,6 +119,6 @@ class RealEstateEntryController extends Controller
     {
         $realEstateEntry->delete();
 
-        return response()->json(null, 204);
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
